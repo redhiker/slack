@@ -1,0 +1,24 @@
+{
+  "name": "slack",
+  "version": "1.0.0",
+  "description": "\"clone slack\"",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/redhiker/slack.git"
+  },
+  "author": "Larry",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/redhiker/slack/issues"
+  },
+  "homepage": "https://github.com/redhiker/slack#readme",
+  "dependencies": {
+    "express": "^4.14.0",
+    "mocha": "^3.0.2",
+    "sqlite3": "^3.1.4"
+  }
+}
