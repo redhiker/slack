@@ -6,17 +6,17 @@ var db = require('./db.js');
 
 describe('Db module', () => {
 
-    var conn = db.connection("./test.db");
+    var conn = db.connection("./slack.db");
     
 
     after(() => {
         //db.rollback();
     });    
 
-    it('given team name, return all channels for that team', (done) => {
+    it('given team name, return all members for that team', (done) => {
 
         var teamName = 'Team2';
-        var expected = ['Shuvo Ahmed'];        
+        var expected = ['betsy'];        
 	
         var p = db.getChannels(conn, teamName);
         p.then(
