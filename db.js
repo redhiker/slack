@@ -82,22 +82,29 @@ exports.getChannels = getChannels;
 
 function getChannels(conn, teamName) {
 
-    //console.log("SELECT USERID FROM CHANNEL WHERE TEAMID="+teamName);
+    return new Promise((resolve, reject) => {
+		
+		var query = "SELECT TEAMID, USERID FROM CHANNEL WHERE TEAMID='"+teamName+"'";
 
-    var userids = [];
+		var users = [];
 
-   conn.each("SELECT TEAMID, USERID FROM CHANNEL WHERE TEAMID='"+teamName+"'", function(err, row) {
-       if (err) {
-           console.log('error in select.....');
-       } else {          
-            userids.push(row.USERID);    
-       }    
-   });
-
-   console.log(userids);
-
-    return userids;
-    
+		conn.serialize(function() {
+			conn.each(
+				query, 
+				function(err, row) {
+					users.push(row.USERID);
+				},
+				function (err, nRows) {
+					if (err) {
+						reject(err);
+					} else {
+						resolve(users);
+					}					
+				}
+			);
+		});
+		//db.close();
+	});    
 };
 
 exports.getUserMessages = getUserMessages;

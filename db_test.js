@@ -13,17 +13,38 @@ describe('Db module', () => {
         //db.rollback();
     });    
 
-    it('given team name, return all channels for that team', () => {
+    it('given team name, return all channels for that team', (done) => {
 
-        var teamName = 'Team1';
-        var expected = ['orange','blue','red'];
-        var actual = db.getChannels(conn, teamName);
-        //var actual = ['orange','blue','red'];
-        asserts(actual, expected);
+        var teamName = 'Team2';
+        var expected = ['Shuvo Ahmed'];        
+	
+        var p = db.getChannels(conn, teamName);
+        p.then(
+            (val) => {
+                try {
+                    var actual = val;
+                    console.log(expected,actual);
+                    //asserts(actual, expected);
+                    asserts.deepEqual(actual,expected);
+                    done();                    
+                }
+                catch (x) {
+                    console.log('failed test due to exception......');
+                    done(x);
+                }
+
+                //done();
+            },
+            (err) => {
+                console.log('failed test due to error.......');
+            }        
+        );
+
+        
         
     });
 
-    it('given user name, return all messages for that user', () => {
+    /*it('given user name, return all messages for that user', () => {
 
         var userName = 'Yankees';
         var expected = ['orange','blue','red'];
@@ -31,6 +52,6 @@ describe('Db module', () => {
         var actual = db.getUserMessages(conn, userName);
         asserts(actual, expected);
         
-    });
+    });*/
 
 });

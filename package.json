@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/redhiker/slack#readme",
   "dependencies": {
+    "assert": "^1.4.1",
     "express": "^4.14.0",
     "mocha": "^3.0.2",
     "sqlite3": "^3.1.4"
