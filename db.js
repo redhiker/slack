@@ -52,9 +52,9 @@ function connection(filename) {
     return slackDatabase;
 };
 
-exports.getChannels = getChannels;
+exports.getTeamMembers = getTeamMembers;
 
-function getChannels(conn, teamName) {
+function getTeamMembers(conn, teamName) {
 
     return new Promise((resolve, reject) => {
 		

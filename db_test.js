@@ -18,7 +18,7 @@ describe('Db module', () => {
         var teamName = 'Team2';
         var expected = ['betsy'];        
 	
-        var p = db.getChannels(conn, teamName);
+        var p = db.getTeamMembers(conn, teamName);
         p.then(
             (val) => {
                 try {
