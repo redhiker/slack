@@ -1,36 +1,20 @@
-/*
-table users
-id
-name
-password
-email
-
-table teamusers
-iduserid fk
-teamid fk
-
-table channels
-id
-name
-teamid pk
-description
-
-table messages
-id
-userid
-channelid
-teamid
-description
-type (team,private)
-*/
 var express = require('express');
 var sqlite3 = require('sqlite3').verbose();
 var fs = require('fs');
 
-//exports.createDatabase = createDatabase;
+var filename = 'test.db';
+var dbexists = false;
+try {
+    fs.accessSync(filename);
+    dbexists = true;
+} catch (ex) {
+    dbexists = false;
+}
 
-function createDatabase(filename){ 
-    var db = new sqlite3.Database(filename);
+var db = new sqlite3.Database('test.db');
+
+
+if (!dbexists) {
     db.serialize(function() { 
         console.log('creating database.....');     
         var createChannelTable = "CREATE TABLE IF NOT EXISTS CHANNEL " +
@@ -55,55 +39,6 @@ function createDatabase(filename){
             console.log('perhaps an error');
         });
     });
-    //db.close();
-};
+}
 
-exports.connection = connection;
-
-function connection(filename) {
-    var dbexists = false;
-    try {
-        fs.accessSync(filename);
-        dbexists = true;
-    } catch (ex) {
-        dbexists = false;
-    }
-
-    if (!dbexists) {
-        createDatabase(filename);
-    };
-
-    var slackDatabase = new sqlite3.Database(filename);
-
-    return slackDatabase;
-};
-
-exports.getChannels = getChannels;
-
-function getChannels(conn, teamName) {
-
-    //console.log("SELECT USERID FROM CHANNEL WHERE TEAMID="+teamName);
-
-    var userids = [];
-
-   conn.each("SELECT TEAMID, USERID FROM CHANNEL WHERE TEAMID='"+teamName+"'", function(err, row) {
-       if (err) {
-           console.log('error in select.....');
-       } else {          
-            userids.push(row.USERID);    
-       }    
-   });
-
-   console.log(userids);
-
-    return userids;
-    
-};
-
-exports.getUserMessages = getUserMessages;
-
-function getUserMessages(conn, userName) {
-
-    return ['orange','blue','red'];
-    
-};
+db.close();
