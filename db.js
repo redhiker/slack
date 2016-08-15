@@ -83,12 +83,78 @@ function getTeamMembers(conn, teamName) {
 
 exports.getUserMessages = getUserMessages;
 
-function getUserMessages(conn, userName) {
+function getUserMessages(conn, userId) {
 
     return new Promise((resolve, reject) => {
 
-        var query = "SELECT TEAMID, USERID FROM CHANNEL WHERE TEAMID='"+userName+"'";
+		var query = "SELECT MESSAGE FROM SLACK_MESSAGES " 
+		+ "INNER JOIN SLACK_TEAM_MEMBERS " 
+		+ "ON SLACK_MESSAGES.TEAMID=SLACK_TEAM_MEMBERS.TEAMID "
+		+ "AND SLACK_TEAM_MEMBERS.USERID = '" + userId + "'";
+
+		var messages = [];
+
+		conn.serialize(function() {
+			conn.each(
+				query, 
+				function(err, row) {
+					messages.push(row.MESSAGE);
+				},
+				function (err, nRows) {
+					if (err) {
+						reject(err);
+					} else {
+						resolve(messages);
+					}					
+				}
+			);
+		});
 
     });
     
+};
+
+exports.addSlackUser = addSlackUser;
+
+function addSlackUser(conn, teamId, userId, password, email) {
+
+	return new Promise((resolve, reject) => {
+
+		var member_insert_query = "INSERT INTO SLACK_MEMBERS (USERID, PASSWORD, EMAIL) " +             
+            "VALUES ('"+userId+"','"+password+"','"+email+"')";
+
+		var team_insert_query = "INSERT INTO SLACK_TEAM_MEMBERS (USERID, TEAMID) " +             
+            "VALUES ('"+userId+"','"+teamId+"')";
+
+		var select_query = "SELECT USERID, PASSWORD, EMAIL FROM SLACK_MEMBERS WHERE USERID='"+userId+"'";
+
+		var user = [];
+
+		conn.serialize(function() {
+
+			conn.run(member_insert_query,function(err, row) {
+				if (err) {
+					reject('insert user failed - duplicate user....');
+				}
+			});
+
+			conn.run(team_insert_query);
+
+			conn.each(
+				select_query, 
+				function(err, row) {
+					user.push(row.EMAIL);
+				},
+				function (err, nRows) {
+					if (err) {
+						reject(err);
+					} else {
+						resolve(user);
+					}					
+				}
+			);
+		});
+
+    });
+
 };
