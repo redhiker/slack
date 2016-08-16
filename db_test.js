@@ -12,7 +12,7 @@ describe('Db module', () => {
     after(() => {
         //db.rollback();
     });    
-/*
+
     it('given team name, return all members for that team', (done) => {
 
         var teamName = 'Team2';
@@ -99,7 +99,7 @@ describe('Db module', () => {
                 done(err);
             }        
         );        
-    });*/
+    });
 
     it('add user message to Slack', (done) => {
 
