@@ -158,3 +158,73 @@ function addSlackUser(conn, teamId, userId, password, email) {
     });
 
 };
+
+exports.addUserMessage = addUserMessage;
+
+function addUserMessage(conn, userId, teamId, message) {
+
+	return new Promise((resolve, reject) => {
+
+		var validate_user_query = "SELECT * FROM SLACK_MEMBERS WHERE USERID='"+userId+"'";
+
+		var validate_team_query = "SELECT * FROM SLACK_TEAMS WHERE TEAMID='"+teamId+"'";
+
+		var message_insert_query = "INSERT INTO SLACK_MESSAGES (USERID, TEAMID, MESSAGE) " +             
+            "VALUES ('"+userId+"','"+teamId+"','"+message+"')";
+
+		var validate_message_query = "SELECT * FROM SLACK_MESSAGES WHERE TEAMID='"+teamId+"' AND USERID='"+userId+"'";
+
+		var messages = [];
+
+		conn.serialize(function() {
+
+			var v1 = [];
+			var v2 = [];
+
+			conn.each(
+				validate_user_query, 
+				function(err, row) {
+					
+				},
+				function (err, nRows) {
+					if (err) {
+						reject(err);
+					} else {
+						// user is valid.
+					}					
+				}
+			);
+
+			conn.each(
+				validate_team_query, 
+				function(err, row) {
+					
+				},
+				function (err, nRows) {
+					if (err) {
+						reject(err);
+					} else {
+						// team is valid.
+					}					
+				}
+			);
+
+			conn.run(message_insert_query);
+
+			conn.each(
+				validate_message_query, 
+				function(err, row) {
+					messages.push(row.MESSAGE);
+				},
+				function (err, nRows) {
+					if (err) {
+						reject(err);
+					} else {
+						
+						resolve(messages);
+					}					
+				}
+			);
+		});
+	});
+};

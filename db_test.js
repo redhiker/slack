@@ -12,7 +12,7 @@ describe('Db module', () => {
     after(() => {
         //db.rollback();
     });    
-
+/*
     it('given team name, return all members for that team', (done) => {
 
         var teamName = 'Team2';
@@ -89,6 +89,34 @@ describe('Db module', () => {
                 }
                 catch (x) {
                     console.log('failed test due to exception......');
+                    done(x);
+                }
+
+                //done();
+            },
+            (err) => {
+                console.log(err);
+                done(err);
+            }        
+        );        
+    });*/
+
+    it('add user message to Slack', (done) => {
+
+        var userId = 'alice';
+        var teamId = 'Team3';
+        var message = 'an experimental message';        
+	
+        var p = db.addUserMessage(conn, userId, teamId, message);
+        p.then(
+            (val) => {
+                try {
+                    var actual = val;
+                    var expected = actual.indexOf(message);
+                    asserts(expected >= 0);
+                    done();                    
+                }
+                catch (x) {
                     done(x);
                 }
 
