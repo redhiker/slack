@@ -1,0 +1,63 @@
+<html ng-app="loginApp">
+	<head>
+		<meta charset="utf-8">
+		<title>login</title>
+	  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js"></script>
+		<script>
+		    var loginApp = angular.module('loginApp', []);
+		
+			loginApp.controller('LoginCtrl', 
+				function ($scope)
+				{
+					
+					$scope.isValidName = false;
+					$scope.isValidPassword = false;
+										
+					$scope.$watch('name', function(newValue, oldValue){
+						if(newValue.trim() === "")
+						{
+							$scope.isValidName = false;
+						}
+						else
+						{
+							$scope.isValidName = true;
+						}
+					});
+					
+					 $scope.$watch('password', function(newValue, oldValue){
+						if(newValue.trim() === "")
+						{
+							$scope.isValidPassword = false;
+						}
+						else
+						{
+							$scope.isValidPassword = true;
+						}
+					});
+					
+				}
+			);
+		</script>
+	</head>
+	<body ng-controller="LoginCtrl">
+		<h1>Login</h1>
+		<form>
+				<div>
+				<p style="display:inline">User Name</p>
+				<br>
+				<input type="textbox" ng-model="name">
+				<p ng-hide="isValidName">Name cannot be left empty</p>
+				<br ng-show="isValidName"></br>
+			     </div>
+			<div>
+				<p style="display:inline">Password</p>
+				<br>
+				<input type="password" ng-model="password">
+				<p ng-hide="isValidPassword">Password cannot be left empty</p>
+				<br ng-show="isValidPassword"></br>
+			</div>
+		
+		</form>
+		
+	</body>
+</html>
