@@ -1,45 +1,4 @@
-<html ng-app="loginApp">
-	<head>
-		<meta charset="utf-8">
-		<title>login</title>
-	  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js"></script>
-		<script>
-		    var loginApp = angular.module('loginApp', []);
-		
-			loginApp.controller('LoginCtrl', 
-				function ($scope)
-				{
-					
-					$scope.isValidName = false;
-					$scope.isValidPassword = false;
-										
-					$scope.$watch('name', function(newValue, oldValue){
-						if(newValue.trim() === "")
-						{
-							$scope.isValidName = false;
-						}
-						else
-						{
-							$scope.isValidName = true;
-						}
-					});
-					
-					 $scope.$watch('password', function(newValue, oldValue){
-						if(newValue.trim() === "")
-						{
-							$scope.isValidPassword = false;
-						}
-						else
-						{
-							$scope.isValidPassword = true;
-						}
-					});
-					
-				}
-			);
-		</script>
-	</head>
-	<body ng-controller="LoginCtrl">
+
 		<h1>Login</h1>
 		<form>
 				<div>
@@ -59,5 +18,4 @@
 		
 		</form>
 		
-	</body>
-</html>
+	
