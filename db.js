@@ -178,9 +178,6 @@ function addUserMessage(conn, userId, teamId, message) {
 
 		conn.serialize(function() {
 
-			var v1 = [];
-			var v2 = [];
-
 			conn.each(
 				validate_user_query, 
 				function(err, row) {
