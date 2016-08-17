@@ -225,3 +225,35 @@ function addUserMessage(conn, userId, teamId, message) {
 		});
 	});
 };
+
+exports.validateUser = validateUser;
+
+function validateUser(conn, userId, password) {
+
+	return new Promise((resolve, reject) => {
+
+		var users = []; // should only return one at most
+
+		var validate_user_query = "SELECT * FROM SLACK_MEMBERS WHERE USERID='"+userId+"' AND PASSWORD='"+password+"'";
+
+		conn.serialize(function() {
+
+			conn.each(
+				validate_user_query, 
+				function(err, row) {
+					users.push(row.USERID);
+				},
+				function (err, nRows) {
+					if (err) {
+						reject(err);
+					} else {
+						resolve(users);
+					}					
+				}
+			);
+
+		});
+
+	});
+
+};
