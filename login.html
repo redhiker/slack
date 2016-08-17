@@ -1,5 +1,20 @@
-
-		<h1>Login</h1>
+	<h1>Login</h1>
+    <form ng-submit="addusers()">
+	<h1>
+	<pre>
+	Name     :  <input type="text" ng-model="inputName">
+	Password :  <input type="password" ng-model="inputPassword">
+	Submit   :  <input type="submit" value="add">
+   </pre>
+   </h1>
+    </form>
+	    <ul>
+      <!--li ng-repeat="user in users">{{user}}</li -->
+	  <li>User Name: {{userName}}</li>
+	  <li>Password : {{passwd}}</li>
+    </ul>
+		
+		<!--
 		<form>
 				<div>
 				<p style="display:inline">User Name</p>
@@ -16,6 +31,6 @@
 				<br ng-show="isValidPassword"></br>
 			</div>
 		
-		</form>
+		</form> -->
 		
 	

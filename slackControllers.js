@@ -1,7 +1,19 @@
 var slackControllers = angular.module('slackControllers', []);
 
-slackControllers.controller('LoginCtrl', 
-    function ($scope)
+slackControllers.controller('LoginCtrl', function ($scope){
+        $scope.userName;
+        $scope.passwd;
+
+        $scope.addusers = function() {
+         
+		  $scope.userName= $scope.inputName; $scope.inputName = '';
+		  $scope.passwd  = $scope.inputPassword; $scope.inputPassword = '';
+       
+        };
+      });
+
+
+   /* function ($scope)
     {
         
         $scope.isValidName = false;
@@ -30,4 +42,4 @@ slackControllers.controller('LoginCtrl',
         });
         
     }
-);
+);*/
